@@ -4,7 +4,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.utils import timezone
 
 class UserManager(BaseUserManager) :
-    def create_user(self, email, name, password = None) :
+    def create_user(self, email, name, password) :
         if not email :
             raise ValueError("User must have an Email")
 
@@ -17,7 +17,7 @@ class UserManager(BaseUserManager) :
         user.save(using = self._db)
         return user
     
-    def create_superuser(self, email, name, password = None) :
+    def create_superuser(self, email, name, password) :
         superuser = self.create_user(email, name, password = password)
         superuser.is_admin = True
         superuser.save(using = self._db)
