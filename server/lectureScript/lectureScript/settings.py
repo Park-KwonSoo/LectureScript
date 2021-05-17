@@ -38,7 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_framework',
     'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
     'user.apps.UserConfig'
 ]
 
@@ -91,8 +97,8 @@ AUTH_USER_MODEL = 'user.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES' : (
-        # 'rest_framework.permissions.IsAuthenticated', # 인증된 사용자만 접근 가능
-        # 'rest_framework.permissions.IsAdminUser', # 관리자만 접근 가능
+        'rest_framework.permissions.IsAuthenticated', # 인증된 사용자만 접근 가능
+        'rest_framework.permissions.IsAdminUser', # 관리자만 접근 가능
         'rest_framework.permissions.AllowAny', # 누구나 접근 가능
     ),
      'DEFAULT_RENDERER_CLASSES': (
@@ -105,12 +111,27 @@ REST_FRAMEWORK = {
 }
 
 JWT_AUTH = {
-    
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_ALGORITHM': 'HS256', # 암호화 알고리즘
     'JWT_ALLOW_REFRESH': True, # refresh 사용 여부
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days = 7), # 유효기간 설정
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days = 28), # JWT 토큰 갱신 유효기간
+}
+
+SITE_ID = 1
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER' : 'user.serializers.UserSerializer' 
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER' : 'user.serializers.RegisterSerializer',
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -127,6 +148,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+REST_USE_JWT = True
 
 
 # Internationalization

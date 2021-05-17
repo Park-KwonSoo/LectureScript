@@ -1,8 +1,8 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
 
 app_name = 'user'
 urlpatterns = [
-    path('register/', views.RegisterView.as_view(), name = 'register'),
-    path('login/', views.LoginView.as_view(), name = 'login')
+    path('api-auth/', include('rest_framework.urls')),
+    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/registration/', include('rest_auth.registration.urls'))
 ]
