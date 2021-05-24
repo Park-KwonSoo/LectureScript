@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
     'rest_auth.registration',
-    'user.apps.UserConfig'
+    'user.apps.UserConfig',
+    'records.apps.RecordsConfig',
+    'pdf.apps.PdfConfig'
 ]
 
 MIDDLEWARE = [
@@ -108,6 +110,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
     ),
 }
 
@@ -117,6 +121,7 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True, # refresh 사용 여부
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days = 7), # 유효기간 설정
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days = 28), # JWT 토큰 갱신 유효기간
+    'JWT_AUTH_HEADER_PREFIX': 'Token',
 }
 
 SITE_ID = 1
