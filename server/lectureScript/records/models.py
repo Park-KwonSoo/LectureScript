@@ -2,13 +2,20 @@ from django.db import models
 from django.utils import timezone
 
 class Recording(models.Model) :
-    name = models.CharField(max_length = 50)
+    email = models.EmailField(max_length = 200)
+    title = models.CharField(max_length = 50)
     createdDate = models.DateTimeField(default = timezone.now)
-    recordFile = models.FileField(upload_to = 'file', null = True)
-    user = models.ForeignKey("user.User", on_delete = models.DO_NOTHING, db_column = "user_email")
+    professor = models.CharField(max_length = 20, default = None)
+    typeScript = models.TextField(default = None, null = True, blank = True)
 
-    def __str__(self) :
-        return self.name
+    def __str__(self) : 
+        return self.title
+
+    def getCreatedDate(self) :
+        return self.createdDate
+
+    def getTypeScript(self) :
+        return self.typeScript
 
     
 # Create your models here.

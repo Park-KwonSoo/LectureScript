@@ -157,6 +157,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_USE_JWT = True
 
+#media Root
+MEDIA_ROOT = '/Users/parkkwonsoo/Desktop/Project/LectureScript/server'
+MEDIA_URL = '/Users/parkkwonsoo/Desktop/Project/LectureScript/server/file/'
+
+FILE_UPLODA_MAX_MEMORY_SIZE = '2621440'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
