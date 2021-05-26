@@ -11,6 +11,9 @@ class Recording(models.Model) :
     def __str__(self) : 
         return self.title
 
+    def isAuthorizedUser(self, email) :
+        return self.email == email
+
     def getCreatedDate(self) :
         return self.createdDate
 

@@ -18,6 +18,7 @@ class RecordingView(APIView) :
         return Response(serializer.data, status = status.HTTP_200_OK)
 
     def post(self, request) :
+        #요청 데이터를 가지고 typeScript로 변환
         Data = request.data
         Data['email'] = request.user.get_username()
         now = datetime.datetime.now()
@@ -27,17 +28,40 @@ class RecordingView(APIView) :
             title = Data['title'])
 
         Data['createdTime'] = now
+        #타입 스크립트로 변환
         Data['typeScript'] = makeTypeScript(get_url)
 
         serializer = RecordingSerializer(data = Data)
-        
+
+        #모델 생성후
         if(serializer.is_valid()) :
             serializer.save()
 
+        #파일을 gcs로부터 삭제
         removeFile(fileName)
         
         return Response(serializer.data, status = status.HTTP_200_OK)
-    
+
+
+#특정 ID값의 View를 가져옴
+class GetRecordView(APIView) :
+    def get(self, request, record_id) :
+        email = request.user.get_username()
+
+        data = Recording.objects.get(pk = record_id)
+
+        if not data :
+            return Response(None, status = status.HTTP_404_NOT_FOUND)
+        
+        if not data.isAuthorizedUser(email) :
+            return Response(None, status = status.HTTP_403_FORBIDDEN)
+
+        serializer = RecordingSerializer(data)
+
+        return Response(serializer.data, status = status.HTTP_200_OK)
+        
+
+
 
 #file을 bucket에 업로드
 def uploadToGcs(file, now, email, title) :
