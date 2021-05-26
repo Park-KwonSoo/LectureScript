@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 #server
-./server
+../server
 
 #.vscode
-./.vscode
+../.vscode
