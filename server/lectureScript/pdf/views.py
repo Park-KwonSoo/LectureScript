@@ -1,4 +1,3 @@
-from google.cloud.storage import bucket
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,14 +11,19 @@ FILE_PATH = '/Users/parkkwonsoo/Desktop/Project/LectureScript/server/lectureScri
 class PdfView(APIView) :
     def post(self, request) :
         email = request.user.get_username()
-        file = makePdf(request.data, email)
-        deleteFileAndUpload(FILE_PATH, file)
+        #파일을 만들고
+        fileName = makePdf(request.data, email)
+        #gcs에 업로드함
+        path = deleteFileAndUpload(FILE_PATH, fileName)
+
+        #성공적을 업로드 시, gcs의 경로를 반환함
         return Response({
-            'path' : FILE_PATH,
-            'filename' : file
+            'path' : path
         }, status = status.HTTP_201_CREATED)
 
 
+
+#pdf를 만드는 클래스
 class PDF(FPDF) :
     def footer(self) :
         self.set_y(-15)
@@ -70,7 +74,6 @@ def makePdf(data, email) :
 
 def deleteFileAndUpload(path, fileName) :
     bucketName = 'record-lecturescript'
-
     #gcs에 file upload
     storage_client = storage.Client()
 
@@ -83,7 +86,7 @@ def deleteFileAndUpload(path, fileName) :
     os.remove(path + fileName)
 
     #다운로드 주소
-    return None
+    return 'gs://' + bucketName + '/' + fileName
     
         
 
