@@ -16,9 +16,10 @@ class PdfView(APIView) :
         #gcs에 업로드함
         path = deleteFileAndUpload(FILE_PATH, fileName)
 
-        #성공적을 업로드 시, gcs의 경로를 반환함
+        #성공적을 업로드 시, gcs의 경로와 fileName을 반환함
         return Response({
-            'path' : path
+            'path' : path,
+            'fileName' : fileName
         }, status = status.HTTP_201_CREATED)
 
 
@@ -81,6 +82,7 @@ def deleteFileAndUpload(path, fileName) :
     blob = bucket.blob(fileName)
 
     blob.upload_from_filename(path + fileName)
+    # blob.make_public()
 
     #upload되면 서버에서 파일 삭제
     os.remove(path + fileName)
