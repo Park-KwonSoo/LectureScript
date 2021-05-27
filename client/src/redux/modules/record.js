@@ -7,6 +7,7 @@ import { Map } from 'immutable';
 //Actions
 const INITIALIZE = 'record/INITIALIZE';
 const SET_ERROR = 'record/SET_ERROR';
+const CHANGE_INPUT = 'record/CHANGE_INPUT';
 
 const MAKE_RECORD_FILE = 'record/MAKE_RECORD_FILE';
 const GET_RECORD_LIST = 'record/GET_RECORD_LIST';
@@ -16,6 +17,7 @@ const GET_RECORD_BY_ID = 'record/GET_RECORD_BY_ID';
 //create Actions
 export const initialize = createAction(INITIALIZE);
 export const setError = createAction(SET_ERROR);
+export const changeInput = createAction(CHANGE_INPUT);
 
 export const makeRecordFile = createAction(MAKE_RECORD_FILE, RecordAPI.makeRecordFile);
 export const getRecordList = createAction(GET_RECORD_LIST, RecordAPI.getRecordList);
@@ -24,6 +26,11 @@ export const getRecordById = createAction(GET_RECORD_BY_ID, RecordAPI.getRecordB
 
 //initial State
 const initialState = Map({
+    input : Map({
+        title : '',
+        professor : '',
+        file : File
+    }),
     recordInfo : {},
     myRecordList : [],
     error : null
@@ -36,6 +43,10 @@ export default handleActions({
     [SET_ERROR] : (state, action) => {
         const { message } = action.payload;
         return state.set('error', message);
+    },
+    [CHANGE_INPUT] : (state, action) => {
+        const { name, value } = action.payload;
+        return state.setIn(['input', name], value);
     },
     ...pender({
         type : MAKE_RECORD_FILE,
