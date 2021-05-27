@@ -12,7 +12,7 @@ function App() {
       <Route exact path = '/' component = { Home }/>
       <Route path = '/auth' component = { Auth }/>
       <Route path = '/pdf' component = { Pdf }/>
-      <Route path = '/Record' component = { Record }/>
+      <Route path = '/record' component = { Record }/>
     </>
   );
 }

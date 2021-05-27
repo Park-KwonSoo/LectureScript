@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 function HomeContainer () {
     return (
         <>
+            <div>Home</div>
         </>
     );
 };

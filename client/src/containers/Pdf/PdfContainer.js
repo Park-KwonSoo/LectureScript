@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 function PdfContainer() {
     return (
         <>
+            <div>Pdf</div>
         </>
     );
 };

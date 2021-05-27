@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 function RecordingContainer() {
     return (
         <>
+            <div>Recording</div>
         </>
     );
 };

@@ -6,6 +6,8 @@ import { GetRecord, Recording } from '../containers/Record';
 function Record() {
     return (
         <>
+            <Route exact path = '/record' component = { Recording }/>
+            <Route path = '/record/auth' component = { GetRecord }/>
         </>
     )
 };

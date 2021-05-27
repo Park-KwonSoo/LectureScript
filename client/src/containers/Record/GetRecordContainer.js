@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 function GetRecordContainer () {
     return (
         <>
+            <div>GetRecord</div>
         </>
     );
 };
