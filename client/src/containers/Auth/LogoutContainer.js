@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 function LogoutContainer () {
     return (
         <>
+            <div>logout</div>
         </>
     );
 };
