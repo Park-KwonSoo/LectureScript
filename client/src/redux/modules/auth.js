@@ -28,7 +28,8 @@ const initialState = Map({
     register : Map({
         email : '',
         name : '',
-        password : ''
+        password : '',
+        success : false
     }),
     login : Map({
         email : '',
@@ -52,7 +53,10 @@ export default handleActions({
     },
     ...pender({
         type : REGISTER,
-        onSuccess : () => initialState
+        onSuccess : (state) => {
+            const initialRegister = initialState.get('register');
+            return state.set('register', initialRegister).setIn(['register', 'success'], true);
+        }
     }),
     ...pender({
         type : LOGIN,

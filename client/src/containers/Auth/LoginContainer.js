@@ -6,16 +6,21 @@ import * as authActions from '../../redux/modules/auth';
 
 function LoginContainer () {
     const auth = useSelector(state => state.auth);
+    const token = useSelector(state => state.auth.get('token'));
 
     const history = useHistory();
     const dispatch = useDispatch();
 
-    //컴포넌트가 연결되면
+    //token의 값이 설정되면 변화하면 home 화면으로 간다.
     useEffect(() => {
-        dispatch(authActions.setError({
-            message : null
-        }))
-    }, [dispatch])
+        if(token) {
+            dispatch(authActions.setError({
+                message : null
+            }));
+            
+            history.push('/');
+        }
+    }, [token])
     
 
     const handleChangeInput = (e) => {
@@ -37,11 +42,9 @@ function LoginContainer () {
                 password
             }));
 
-            history.push('/');
-
         }   catch(e) {
             dispatch(authActions.setError({
-                message : '알 수 없는 에러가 발생했습니다.'
+                message : e
             }));
         }
     };
@@ -50,7 +53,7 @@ function LoginContainer () {
         <>
             <input name = 'email' onChange = {handleChangeInput}/>
             <input name = 'password' type = 'password' onChange = {handleChangeInput}/>
-            <button onClick = {handleClick}/>
+            <button onClick = {handleClick}>로그인</button>
         </>
     );
 };
