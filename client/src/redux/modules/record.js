@@ -32,7 +32,8 @@ const initialState = Map({
         file : File
     }),
     recordInfo : {},
-    myRecordList : [],
+    myRecordList : null,
+    status : null,
     error : null
 });
 
@@ -50,14 +51,17 @@ export default handleActions({
     },
     ...pender({
         type : MAKE_RECORD_FILE,
-        onSuccess : (state, action) => state.set('recordInfo', action.payload.data)
+        onSuccess : (state, action) => state.set('recordInfo', action.payload.data).set('status', action.payload.status),
+        onFailure : (state, action) => state.set('status', action.payload.status)
     }),
     ...pender({
         type : GET_RECORD_LIST,
-        onSuccess : (state, action) => state.set('myRecordList', action.payload.data)
+        onSuccess : (state, action) => state.set('myRecordList', action.payload.data).set('status', action.payload.status),
+        onFailure : (state, action) => state.set('status', action.payload.status)
     }),
     ...pender({
         type : GET_RECORD_BY_ID,
-        onSuccess : (state, action) => state.set('recordInfo', action.payload.data)
+        onSuccess : (state, action) => state.set('recordInfo', action.payload.data).set('status', action.payload.status),
+        onFailure : (state, action) => state.set('status', action.payload.status)
     })
 }, initialState)

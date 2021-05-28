@@ -29,11 +29,12 @@ const initialState = Map({
         email : '',
         name : '',
         password : '',
-        success : false
+        status : null
     }),
     login : Map({
         email : '',
-        password : ''
+        password : '',
+        status : null
     }),
     token : null,
     error : null
@@ -41,6 +42,7 @@ const initialState = Map({
 
 
 //export
+//to Do : set failure 작성
 export default handleActions({
     [INITIALIZE] : () => initialState,
     [CHANGE_INPUT] : (state, action) => {
@@ -53,17 +55,19 @@ export default handleActions({
     },
     ...pender({
         type : REGISTER,
-        onSuccess : (state) => {
+        onSuccess : (state, action) => {
             const initialRegister = initialState.get('register');
-            return state.set('register', initialRegister).setIn(['register', 'success'], true);
-        }
+            return state.set('register', initialRegister).setIn(['register', 'status'], action.payload.status);
+        },
+        onFailure : (state, action) => state.setIn(['register', 'status'], action.payload.status)
     }),
     ...pender({
         type : LOGIN,
         onSuccess : (state, action) => {
             const { token } = action.payload.data;
-            return state.set('token', token);
-        }
+            return state.set('token', token).setIn(['login', 'status'], action.payload.status);
+        },
+        onFailure : (state, action) => state.setIn(['login', 'status'], action.payload.status)
     }),
     ...pender({
         type : LOGOUT,

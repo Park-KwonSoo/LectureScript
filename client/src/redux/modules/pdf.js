@@ -6,6 +6,7 @@ import { Map } from 'immutable';
 //Actions
 const INITIALIZE = 'pdf/INITIALIZE';
 const SET_ERROR = 'pdf/SET_ERROR';
+const SET_CHANGE_CREATED_DATE = 'pdf/SET_CHANGE_CREATED_DATE';
 
 const MAKE_PDF = 'pdf/MAKE_PDF';
 
@@ -13,6 +14,7 @@ const MAKE_PDF = 'pdf/MAKE_PDF';
 //create Actions
 export const initialize = createAction(INITIALIZE);
 export const setError = createAction(SET_ERROR);
+export const setChangeCreatedDate = createAction(SET_CHANGE_CREATED_DATE);
 
 export const makePdf = createAction(MAKE_PDF, PdfAPI.makePdf);
 
@@ -23,6 +25,8 @@ const initialState = Map({
         path : '',
         fileName : ''
     },
+    createdDate : '',
+    status : null,
     error : null
 });
 
@@ -34,8 +38,13 @@ export default handleActions({
         const { message } = action.payload;
         return state.set('error', message);
     },
+    [SET_CHANGE_CREATED_DATE] : (state, action) => {
+        const { createdDate } = action.payload;
+        return state.set('createdDate', createdDate);
+    },
     ...pender({
         type : MAKE_PDF,
-        onSuccess : (state, action) => state.set('result', action.payload.data)
+        onSuccess : (state, action) => state.set('result', action.payload.data).set('status', action.payload.status),
+        onFailure : (state, action) => state.set('status', action.payload.status)
     })
 }, initialState);

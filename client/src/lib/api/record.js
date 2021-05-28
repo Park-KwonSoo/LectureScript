@@ -8,14 +8,14 @@ export const makeRecordFile = ({ title, professor, file, token }) =>
     })
 
 export const getRecordList = ({ token }) =>
-    client.get('/records/recording/', null, {
+    client.get('/records/recording/', {
         headers : {
             'Authorization' : `token ${token}`
         }
     })
 
-export const getRecordById = ({ record_id, token }) =>
-    client.get('/record/recording/' + record_id, null, {
+export const getRecordById = ({ recordId, token }) =>
+    client.get('/records/recording/' + recordId, {
         headers : {
             'Authorization' : `token ${token}`
         }
