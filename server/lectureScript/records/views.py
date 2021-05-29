@@ -85,14 +85,14 @@ def makeTypeScript(uri) :
 
     audio = speech.RecognitionAudio(uri = uri)
     config = speech.RecognitionConfig(
-        encoding = speech.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz = 44100,
+        encoding = speech.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED,
+        sample_rate_hertz = 48000,
         language_code = 'ko-KR',
         # alternative_language_code = 'en-US'
     )
 
     operation = client.long_running_recognize(config = config, audio = audio)
-
+    
     response = operation.result(timeout = 90)
 
     typeScript = []
