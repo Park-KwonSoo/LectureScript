@@ -1,7 +1,7 @@
 import client from './client';
 
-export const makeRecordFile = ({ title, professor, file, token }) =>
-    client.post('/records/recording/', { title, professor, file }, {
+export const makeRecordFile = (formData, token) =>
+    client.post('/records/recording/', formData, {
         headers : {
             'Authorization' : `token ${token}`
         }

@@ -28,10 +28,9 @@ export const getRecordById = createAction(GET_RECORD_BY_ID, RecordAPI.getRecordB
 const initialState = Map({
     input : Map({
         title : '',
-        professor : '',
-        file : File
+        professor : ''
     }),
-    recordInfo : {},
+    recordInfo : null,
     myRecordList : null,
     status : null,
     error : null
