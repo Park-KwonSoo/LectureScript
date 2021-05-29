@@ -87,8 +87,10 @@ def deleteFileAndUpload(path, fileName) :
     #upload되면 서버에서 파일 삭제
     os.remove(path + fileName)
 
+    storage_fileName = fileName.replace(' ', '%20').replace('@', '%40')
+
     #다운로드 주소
-    return 'gs://' + bucketName + '/' + fileName
+    return 'https://storage.googleapis.com/' + bucketName + '/' + storage_fileName
     
         
 
