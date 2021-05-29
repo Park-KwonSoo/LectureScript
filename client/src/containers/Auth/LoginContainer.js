@@ -1,16 +1,50 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import * as authActions from '../../redux/modules/auth';
 import storage from '../../lib/storage';
 
+import { MainWrapper } from '../../components/Base';
+import { LoginComponent } from '../../components/Auth';
+
+import { isEmail, isLength } from 'validator';
+
+
 function LoginContainer () {
     const auth = useSelector(state => state.auth);
     const token = useSelector(state => state.auth.get('token'));
 
+    const [loginDisable, setLoginDisable] = useState(true);
+
     const history = useHistory();
     const dispatch = useDispatch();
+
+    const validate = {
+        email : (value) => {
+            if(!isEmail(value)) {
+                dispatch(authActions.setError({
+                    form : 'login',
+                    status : 400,
+                    message : "올바르지 않은 이메일입니다."
+                }));
+                return false;
+            }
+            return true;
+        },
+        password : (value) => {
+            if(!isLength(value, { min : 8 })) {
+                dispatch(authActions.setError({
+                    form : 'login',
+                    status : 400,
+                    message : '비밀번호를 8자 이상 입력하세요.'
+                }));
+                return false;
+            }
+            return true;
+        }
+    };
+
 
     //token의 값이 설정되면 home 화면으로 간다.
     useEffect(() => {
@@ -24,7 +58,19 @@ function LoginContainer () {
 
             history.push('/');
         }
-    }, [token])
+
+        if(validate['email'](auth.getIn(['login', 'email'])) 
+            && validate['password'](auth.getIn(['login', 'password']))
+        ) {
+            dispatch(authActions.setError({
+                form : 'login',
+                status : 200,
+                message : null
+            }));
+            setLoginDisable(false);
+        } else setLoginDisable(true);
+
+    }, [token, dispatch, validate, loginDisable]);
     
 
     const handleChangeInput = (e) => {
@@ -56,11 +102,9 @@ function LoginContainer () {
     };
 
     return (
-        <>
-            <input name = 'email' onChange = {handleChangeInput}/>
-            <input name = 'password' type = 'password' onChange = {handleChangeInput}/>
-            <button onClick = {handleLogin}>로그인</button>
-        </>
+        <MainWrapper center = {
+            <LoginComponent disabled = {loginDisable} onChange = {handleChangeInput} onClick = {handleLogin}/>
+        }/>
     );
 };
 

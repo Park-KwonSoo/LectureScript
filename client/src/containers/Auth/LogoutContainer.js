@@ -22,6 +22,9 @@ function LogoutContainer () {
         alert('로그아웃 되었습니다.');
         history.push('/');
 
+        //홈화면으로 돌아가서 새로고침
+        window.location.reload();
+
     }, []);
 
     return (

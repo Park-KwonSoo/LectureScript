@@ -31,6 +31,7 @@ const initialState = Map({
         email : '',
         name : '',
         password : '',
+        passwordConfirm : '',
         status : null
     }),
     login : Map({
@@ -62,7 +63,7 @@ export default handleActions({
             const initialRegister = initialState.get('register');
             return state.set('register', initialRegister).setIn(['register', 'status'], action.payload.status);
         },
-        onFailure : (state, action) => state.setIn(['register', 'status'], action.payload.status)
+        onFailure : (state, action) => state.setIn(['register', 'status'], action.payload.response.status)
     }),
     ...pender({
         type : LOGIN,
@@ -70,7 +71,7 @@ export default handleActions({
             const { token } = action.payload.data;
             return state.set('token', token).setIn(['login', 'status'], action.payload.status);
         },
-        onFailure : (state, action) => state.setIn(['login', 'status'], action.payload.status)
+        onFailure : (state, action) => state.setIn(['login', 'status'], action.payload.response.status)
     }),
     ...pender({
         type : LOGOUT,

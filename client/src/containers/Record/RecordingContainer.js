@@ -6,6 +6,9 @@ import { useHistory } from 'react-router-dom';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
+import { HomeButton, Loading, MainWrapper } from '../../components/Base';
+
+
 function RecordingContainer() {
     const token = useSelector(state => state.auth.get('token'));
     const record = useSelector(state => state.record);
@@ -20,6 +23,8 @@ function RecordingContainer() {
     const [audioUrl, setAudioUrl] = useState();
     //녹음 완료된 state
     const [recordComplete, setRecordComplete] = useState(false);
+    //로딩중
+    const [loading, setLoading] = useState(false);
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -28,8 +33,10 @@ function RecordingContainer() {
         if(!token && !storage.get('token'))
             history.push('/');
 
-        if(recordInfo)
+        if(recordInfo) {
+            setLoading(false);
             history.push('/pdf');
+        }
 
     }, [token, dispatch, history, recordInfo]);
 
@@ -116,29 +123,39 @@ function RecordingContainer() {
         formData.append('professor', professor);
         formData.append('file', file);
 
+        setLoading(true);
         dispatch(recordActions.makeRecordFile(formData, token));
 
     };
 
+    const handleGoHome = () => {
+        history.push('/');
+    };
 
-    //toDO : 로딩중 컴포넌트 추가
+
     return (
-        onRec ?
-        <>
-            <button onClick = {handleOffRec}>녹음 중지</button>
-        </> :
-        <>
-            <button onClick = {handleOnRec}>녹음 하기</button>
-            {
-                recordComplete ? 
-                <>
-                    <input name = 'title' onChange = {handleChangeInput}/>
-                    <input name = 'professor' onChange = {handleChangeInput}/>
-                    <button onClick = {handleSaveAudioFile}>PDF로 만들러 가기</button>
-                </> : 
-                <></>
-            }
-        </>
+        <MainWrapper center = {
+            onRec ?
+            <button onClick = {handleOffRec}>녹음 중지</button> 
+            :
+            <>
+                <button onClick = {handleOnRec}>녹음 하기</button>
+                {
+                    recordComplete ? 
+                    <>
+                        <input name = 'title' onChange = {handleChangeInput}/>
+                        <input name = 'professor' onChange = {handleChangeInput}/>
+                        <button onClick = {handleSaveAudioFile}>PDF로 만들러 가기</button>
+                        {
+                            loading ? <Loading/> : <></>
+                        }
+                    </> : 
+                    <></>
+                }
+            </>
+        } down = {
+            <HomeButton onClick = {handleGoHome}/>
+        }/>
     );
 };
 

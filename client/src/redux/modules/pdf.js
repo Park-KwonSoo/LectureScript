@@ -45,6 +45,6 @@ export default handleActions({
     ...pender({
         type : MAKE_PDF,
         onSuccess : (state, action) => state.set('result', action.payload.data).set('status', action.payload.status),
-        onFailure : (state, action) => state.set('status', action.payload.status)
+        onFailure : (state, action) => state.set('status', action.payload.response.status)
     })
 }, initialState);

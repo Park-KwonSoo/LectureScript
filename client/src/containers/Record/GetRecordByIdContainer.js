@@ -6,6 +6,9 @@ import { useHistory } from 'react-router-dom';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
+import { HomeButton, MainWrapper } from '../../components/Base';
+
+
 function GetRecordByIdContainer ({match}) {
     const { recordId } = match.params;
 
@@ -20,11 +23,12 @@ function GetRecordByIdContainer ({match}) {
             history.push('/');
         }
 
-        if(!recordInfo.title) {
+        if(token && !recordInfo) {
             handleGetRecord();
         };
 
-    }, [token, recordInfo])
+    }, [token, recordInfo]);
+
 
     const handleGetRecord = () => {
         try {
@@ -39,23 +43,32 @@ function GetRecordByIdContainer ({match}) {
                 message : '알 수 없는 에러가 발생했습니다.'
             }));
         }
-    }
+    };
 
 
     const handleMakePdf = () => {
-        history.push('/pdf')
-    }
+        history.push('/pdf');
+    };
+
+    const handleGoHome = () => {
+        history.push('/');
+    };
 
 
     return (
-        recordInfo.title ?
-        <>
-            <div>{'title : ' + recordInfo.title}</div>
-            <div>{'professor : ' + recordInfo.professor}</div>
-            <div>{'createdDate :' + recordInfo.createdDate}</div>
-            <div>{'typeScript : ' + recordInfo.typeScript}</div>
-            <button onClick = {handleMakePdf}>PDF로 만들기</button>
-        </>
+        recordInfo ?
+        <MainWrapper center = {
+            <>
+                <div>{'title : ' + recordInfo.title}</div>
+                <div>{'professor : ' + recordInfo.professor}</div>
+                <div>{'createdDate :' + recordInfo.createdDate}</div>
+                <div>{'typeScript : ' + recordInfo.typeScript}</div>
+                <button onClick = {handleMakePdf}>PDF로 만들기</button>
+                
+            </>
+        } down = {
+            <HomeButton onClick = {handleGoHome}/>
+        }/>
         :
         <>
         </>

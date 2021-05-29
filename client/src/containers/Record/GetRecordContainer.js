@@ -6,6 +6,8 @@ import { useHistory } from 'react-router-dom';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
+import { HomeButton, MainWrapper } from '../../components/Base';
+
 function GetRecordContainer () {
     const token = useSelector(state => state.auth.get('token'));
     const myRecordList = useSelector(state => state.record.get('myRecordList'));
@@ -50,10 +52,13 @@ function GetRecordContainer () {
     //toDO : 리스트 클릭 시 해당 페이지로 이동하도록
     return (
         myRecordList ?
-        <>
-            <li>{myRecordList.map(record => record.title + record.id)}</li>
-            <button onClick = {handleGoToHome}>홈 화면으로</button>
-        </> :
+        <MainWrapper center = {
+            <>
+                <li>{myRecordList.map(record => record.title + record.id)}</li>
+            </>
+        } down = {
+            <HomeButton onClick = {handleGoToHome}/>
+        }/> :
         <></>
     );
 };

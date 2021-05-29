@@ -7,6 +7,9 @@ import * as pdfActions from '../../redux/modules/pdf';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
+import { HomeButton, MainWrapper} from '../../components/Base';
+
+
 function PdfContainer() {
     const pdf = useSelector(state => state.pdf);
     const token = useSelector(state => state.auth.get('token'))
@@ -29,7 +32,7 @@ function PdfContainer() {
         dispatch(pdfActions.setChangeCreatedDate({
             createdDate : value
         }));
-    }
+    };
 
     const handleMakePdf = () => {
         try {
@@ -54,21 +57,29 @@ function PdfContainer() {
                 message : '알 수 없는 에러가 발생했습니다.'
             }));
         }
-    }
+    };
+
+    const handleGoHome = () => {
+        history.push('/')
+    };
 
 
     return (
-        <>
-            <input name = 'createdDate' type = 'date' onChange = {handleChangeDate}/>
-            <button onClick = {handleMakePdf}>Make PDF</button>
-            {
-                downloadPath ? 
-                <>
-                    <a href = {downloadPath}>다운로드 바로가기</a>
-                </> :
-                <></>    
-            }
-        </>
+        <MainWrapper center = {
+            <>
+                <input name = 'createdDate' type = 'date' onChange = {handleChangeDate}/>
+                <button onClick = {handleMakePdf}>Make PDF</button>
+                {
+                    downloadPath ? 
+                    <>
+                        <a href = {downloadPath}>다운로드 바로가기</a>
+                    </> :
+                    <></>    
+                }
+            </>
+        } down = {
+            <HomeButton onClick = {handleGoHome}/>
+        }/>
     );
 };
 
