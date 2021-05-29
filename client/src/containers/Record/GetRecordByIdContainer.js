@@ -48,7 +48,10 @@ function GetRecordByIdContainer ({match}) {
     return (
         recordInfo.title ?
         <>
-            <div>{recordInfo.title}</div>
+            <div>{'title : ' + recordInfo.title}</div>
+            <div>{'professor : ' + recordInfo.professor}</div>
+            <div>{'createdDate :' + recordInfo.createdDate}</div>
+            <div>{'typeScript : ' + recordInfo.typeScript}</div>
             <button onClick = {handleMakePdf}>PDF로 만들기</button>
         </>
         :
