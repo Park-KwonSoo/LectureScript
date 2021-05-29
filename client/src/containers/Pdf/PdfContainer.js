@@ -17,12 +17,10 @@ function PdfContainer() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(pdfActions.initialize());
-
         if(!token)
             history.push('/');
 
-    }, [token, history, dispatch, downloadPath]);
+    }, [token, history, downloadPath]);
 
     const handleChangeDate = (e) => {
         const { value } = e.target;
@@ -61,7 +59,13 @@ function PdfContainer() {
         <>
             <input name = 'createdDate' type = 'date' onChange = {handleChangeDate}/>
             <button onClick = {handleMakePdf}>Make PDF</button>
-            <div>{downloadPath}</div>
+            {
+                downloadPath ? 
+                <>
+                    <a href = {downloadPath}>다운로드 바로가기</a>
+                </> :
+                <></>    
+            }
         </>
     );
 };

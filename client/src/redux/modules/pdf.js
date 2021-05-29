@@ -22,7 +22,7 @@ export const makePdf = createAction(MAKE_PDF, PdfAPI.makePdf);
 //initial State
 const initialState = Map({
     result : {
-        path : '',
+        path : null,
         fileName : ''
     },
     createdDate : '',
