@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, exceptions
 from fpdf import FPDF
 from google.cloud import storage
 import os
@@ -11,6 +11,11 @@ FILE_PATH = '/Users/parkkwonsoo/Desktop/Project/LectureScript/server/lectureScri
 class PdfView(APIView) :
     def post(self, request) :
         email = request.user.get_username()
+        if not email :
+            raise exceptions.AuthenticationFailed('Not loggined')
+        
+        if not request.data :
+            raise exceptions.NotFound('Not Right Data')
         #파일을 만들고
         fileName = makePdf(request.data, email)
         #gcs에 업로드함

@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, exceptions
 from .models import Recording
 from .serializers import RecordingSerializer
 from google.cloud import speech, storage
@@ -12,14 +12,25 @@ import datetime
 #get : 현재 로그인한 유저의 recording List를 가져온다.
 class RecordingView(APIView) :
     def get(self, request) :
+        if not request.user :
+            raise exceptions.AuthenticationFailed('Not loggined')
+
         data = Recording.objects.filter(email = request.user.get_username())
+        if not data :
+            raise exceptions.NotFound('Not Found Data')
 
         serializer = RecordingSerializer(data, many = True)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
     def post(self, request) :
         #요청 데이터를 가지고 typeScript로 변환
+        if not request.user :
+            raise exceptions.AuthenticationFailed('Not loggined')
+        
         Data = request.data
+        if not Data or not request.FILES.get('file'):
+            raise exceptions.NotAcceptable('Not Data');
+
         Data['email'] = request.user.get_username()
         now = datetime.datetime.now()
 
@@ -40,7 +51,7 @@ class RecordingView(APIView) :
         #파일을 gcs로부터 삭제
         removeFile(fileName)
         
-        return Response(serializer.data, status = status.HTTP_200_OK)
+        return Response(serializer.data, status = status.HTTP_201_CREATED)
 
 
 #특정 ID값의 View를 가져옴
@@ -51,10 +62,10 @@ class GetRecordView(APIView) :
         data = Recording.objects.get(pk = record_id)
 
         if not data :
-            return Response(None, status = status.HTTP_404_NOT_FOUND)
+            raise exceptions.NotFound('Not Found Data')
         
         if not data.isAuthorizedUser(email) :
-            return Response(None, status = status.HTTP_403_FORBIDDEN)
+            raise exceptions.PermissionDenied('Forbidden')
 
         serializer = RecordingSerializer(data)
 
