@@ -25,7 +25,7 @@ function GetRecordContainer () {
             dispatch(recordActions.initialize());
         }
 
-    }, []);
+    }, [token, history, dispatch]);
 
     const handleGetMyRecordList = () => {
         try {

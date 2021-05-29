@@ -20,7 +20,7 @@ function PdfContainer() {
         if(!token)
             history.push('/');
 
-    }, [token]);
+    }, [token, history, dispatch]);
 
     const handleChangeDate = (e) => {
         const { value } = e.target;
@@ -58,6 +58,7 @@ function PdfContainer() {
     }
 
 
+    //toDo : 다운로드 링크 추가
     return (
         <>
             <input name = 'createdDate' type = 'date' onChange = {handleChangeDate}/>

@@ -17,24 +17,24 @@ function HomeContainer () {
 
     const handleLogoutButton = () => {
         history.push('/auth/logout');
-    }
+    };
 
-    const handleGoToMenu = () => {
-        history.push('/record/auth')
-    }
-    
-    //이거 지우고 녹음하기로 바꾸기
     const handleGoToRecordMenu = () => {
-        history.push('/record/auth/1')
-    }
+        history.push('/record')
+    };
+
+    const handleGoToMyMenu = () => {
+        history.push('/record/auth')
+    };
+    
 
     return (
         token ? 
         <>
             <div>로그인 완료</div>
             <button onClick = {handleLogoutButton}>로그아웃</button>
-            <button onClick = {handleGoToMenu}>내 record 목록</button>
-            <button onClick = {handleGoToRecordMenu}>record 1번 메뉴로</button>
+            <button onClick = {handleGoToRecordMenu}>녹음하기</button>
+            <button onClick = {handleGoToMyMenu}>내 record 목록</button>
         </> :
         <>
             <div>Home</div>
