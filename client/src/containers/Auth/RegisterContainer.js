@@ -6,7 +6,6 @@ import * as authActions from '../../redux/modules/auth';
 
 function RegisterContainer () {    
     const auth = useSelector(state => state.auth);
-    const token = useSelector(state => state.auth.get('token'));
     const success = useSelector(state => state.auth.getIn(['register', 'success']))
 
     const dispatch = useDispatch();
@@ -29,7 +28,7 @@ function RegisterContainer () {
     };
 
     //to Do : validate하기 = password 2번 입력받기
-    const handleClick = () => {
+    const handleRegister = () => {
         try {
             const email = auth.getIn(['register', 'email']);
             const name = auth.getIn(['register', 'name']);
@@ -43,7 +42,9 @@ function RegisterContainer () {
 
         }   catch(e) {
             dispatch(authActions.setError({
-                message : e
+                form : 'register',
+                status : 500,
+                message : '알 수 없는 에러가 발생했습니다.'
             }));
         }
     }
@@ -56,7 +57,7 @@ function RegisterContainer () {
             <input name = 'email' onChange = {handleChangeInput}/>
             <input name = 'name' onChange = {handleChangeInput}/>
             <input name = 'password' type = 'password' onChange = {handleChangeInput}/>
-            <button onClick = {handleClick}>회원가입하기</button>
+            <button onClick = {handleRegister}>회원가입하기</button>
         </>
     );
 };

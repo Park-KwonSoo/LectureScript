@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import * as recordActions from '../../redux/modules/record';
+import storage from '../../lib/storage';
 
 function GetRecordByIdContainer ({match}) {
     const { recordId } = match.params;
@@ -15,7 +16,7 @@ function GetRecordByIdContainer ({match}) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(!token) {
+        if(!token && !storage.get('token')) {
             history.push('/');
         }
 
@@ -34,6 +35,7 @@ function GetRecordByIdContainer ({match}) {
     
         }   catch(e) {
             dispatch(recordActions.setError({
+                status : 500,
                 message : '알 수 없는 에러가 발생했습니다.'
             }));
         }

@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import * as authActions from '../../redux/modules/auth';
 import * as pdfActions from '../../redux/modules/pdf';
 import * as recordActions from '../../redux/modules/record';
+import storage from '../../lib/storage';
 
 function LogoutContainer () {
 
@@ -15,6 +16,8 @@ function LogoutContainer () {
         dispatch(authActions.logout());
         dispatch(pdfActions.initialize());
         dispatch(recordActions.initialize());
+
+        storage.remove('token');
 
         alert('로그아웃 되었습니다.');
         history.push('/');

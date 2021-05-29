@@ -41,8 +41,8 @@ const initialState = Map({
 export default handleActions({
     [INITIALIZE] : () => initialState,
     [SET_ERROR] : (state, action) => {
-        const { message } = action.payload;
-        return state.set('error', message);
+        const { status, message } = action.payload;
+        return state.set('error', message).set('status', status);
     },
     [CHANGE_INPUT] : (state, action) => {
         const { name, value } = action.payload;

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import * as authActions from '../../redux/modules/auth';
+import storage from '../../lib/storage';
 
 function LoginContainer () {
     const auth = useSelector(state => state.auth);
@@ -11,13 +12,16 @@ function LoginContainer () {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    //token의 값이 설정되면 변화하면 home 화면으로 간다.
+    //token의 값이 설정되면 home 화면으로 간다.
     useEffect(() => {
         if(token) {
+            //localStorage에 token값을 저장
+            storage.set('token', token);
+
             dispatch(authActions.setError({
                 message : null
             }));
-            
+
             history.push('/');
         }
     }, [token])
@@ -32,7 +36,7 @@ function LoginContainer () {
         }));
     };
 
-    const handleClick = () => {
+    const handleLogin = () => {
         try {
             const email = auth.getIn(['login', 'email']);
             const password = auth.getIn(['login', 'password']);
@@ -44,7 +48,9 @@ function LoginContainer () {
 
         }   catch(e) {
             dispatch(authActions.setError({
-                message : e
+                form : 'login',
+                status : 500,
+                message : '알 수 없는 에러가 발생했습니다'
             }));
         }
     };
@@ -53,7 +59,7 @@ function LoginContainer () {
         <>
             <input name = 'email' onChange = {handleChangeInput}/>
             <input name = 'password' type = 'password' onChange = {handleChangeInput}/>
-            <button onClick = {handleClick}>로그인</button>
+            <button onClick = {handleLogin}>로그인</button>
         </>
     );
 };

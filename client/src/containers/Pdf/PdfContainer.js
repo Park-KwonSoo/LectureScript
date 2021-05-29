@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 import * as pdfActions from '../../redux/modules/pdf';
 import * as recordActions from '../../redux/modules/record';
+import storage from '../../lib/storage';
 
 function PdfContainer() {
     const pdf = useSelector(state => state.pdf);
@@ -17,7 +18,7 @@ function PdfContainer() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(!token)
+        if(!token && !storage.get('token'))
             history.push('/');
 
     }, [token, history, downloadPath]);
@@ -49,6 +50,7 @@ function PdfContainer() {
 
         } catch(e) {
             dispatch(pdfActions.setError({
+                status : 500,
                 message : '알 수 없는 에러가 발생했습니다.'
             }));
         }

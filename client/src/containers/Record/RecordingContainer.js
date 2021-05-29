@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import * as recordActions from '../../redux/modules/record';
+import storage from '../../lib/storage';
 
 function RecordingContainer() {
     const token = useSelector(state => state.auth.get('token'));
@@ -24,7 +25,7 @@ function RecordingContainer() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(!token)
+        if(!token && !storage.get('token'))
             history.push('/');
 
         if(recordInfo)
@@ -76,6 +77,11 @@ function RecordingContainer() {
                 // makeSound(stream);
                 setOnRec(true);
                 setRecordComplete(false);
+            }).catch(() => {
+                dispatch(recordActions.setError({
+                    status : 500,
+                    message : '알 수 없는 에러가 발생했습니다.'
+                }));
             });
         }
     };

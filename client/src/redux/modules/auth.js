@@ -7,6 +7,7 @@ import { Map } from 'immutable';
 const INITIALIZE = 'auth/INITIALIZE';
 const SET_ERROR = 'auth/SET_ERROR';
 const CHANGE_INPUT = 'auth/CHANGE_INPUT';
+const SET_TOKEN = 'auth/SET_TOKEN';
 
 const REGISTER = 'auth/REGISTER';
 const LOGIN = 'auth/LOGIN';
@@ -17,6 +18,7 @@ const LOGOUT = 'auth/LOGOUT';
 export const initialize = createAction(INITIALIZE);
 export const setError = createAction(SET_ERROR);
 export const changeInput = createAction(CHANGE_INPUT);
+export const setToken = createAction(SET_TOKEN);
 
 export const register = createAction(REGISTER, AuthAPI.register);
 export const login = createAction(LOGIN, AuthAPI.login);
@@ -50,9 +52,10 @@ export default handleActions({
         return state.setIn([form, name], value);
     },
     [SET_ERROR] : (state, action) => {
-        const { message } = action.payload;
-        return state.set('error', message);
+        const { form, status, message } = action.payload;
+        return state.set('error', message).setIn([form, 'status'], status);
     },
+    [SET_TOKEN] : (state, action) => state.set('token', action.payload),
     ...pender({
         type : REGISTER,
         onSuccess : (state, action) => {
