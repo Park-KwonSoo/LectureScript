@@ -28,7 +28,7 @@ class RecordingView(APIView) :
             raise exceptions.AuthenticationFailed('Not loggined')
         
         Data = request.data
-        if not Data or not request.FILES.get('file'):
+        if not Data['title'] or not Data['professor'] or not request.FILES.get('file'):
             raise exceptions.NotAcceptable('Not Data');
 
         Data['email'] = request.user.get_username()
