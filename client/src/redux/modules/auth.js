@@ -32,7 +32,8 @@ const initialState = Map({
         name : '',
         password : '',
         passwordConfirm : '',
-        status : null
+        status : null,
+        success : false
     }),
     login : Map({
         email : '',
@@ -61,7 +62,7 @@ export default handleActions({
         type : REGISTER,
         onSuccess : (state, action) => {
             const initialRegister = initialState.get('register');
-            return state.set('register', initialRegister).setIn(['register', 'status'], action.payload.status);
+            return state.set('register', initialRegister).setIn(['register', 'status'], action.payload.status).setIn(['register', 'success'], true);
         },
         onFailure : (state, action) => state.setIn(['register', 'status'], action.payload.response.status)
     }),

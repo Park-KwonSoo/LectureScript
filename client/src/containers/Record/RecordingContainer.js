@@ -6,14 +6,20 @@ import { useHistory } from 'react-router-dom';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
-import { Loading, MainWrapper } from '../../components/Base';
-import { RecordingComponent } from '../../components/Record';
+import { Loading, MainWrapper, Modal } from '../../components/Base';
+import { RecordingComponent, RecordingInputComponent } from '../../components/Record';
 
 
 function RecordingContainer() {
     const token = useSelector(state => state.auth.get('token'));
+
     const record = useSelector(state => state.record);
+
+    const title = record.getIn(['input', 'title']);
+    const professor = record.getIn(['input', 'professor']);
     const recordInfo = record.get('recordInfo');
+    const status = record.get('status');
+
 
     //녹음과 관련된 state
     const [stream, setStream] = useState();
@@ -24,6 +30,8 @@ function RecordingContainer() {
     const [audioUrl, setAudioUrl] = useState();
     //녹음 완료된 state
     const [recordComplete, setRecordComplete] = useState(false);
+    //녹음 완료되고 값을 제대로 입력해야 생성 가능
+    const [buttonDisEnabled, setButtonDisEnabled] = useState(true);
     //로딩중
     const [loading, setLoading] = useState(false);
 
@@ -34,12 +42,25 @@ function RecordingContainer() {
         if(!token && !storage.get('token'))
             history.push('/');
 
-        if(recordInfo) {
+        if(recordInfo && loading) {
             setLoading(false);
             history.push('/pdf');
         }
 
-    }, [token, dispatch, history, recordInfo]);
+        if(status && parseInt(status / 100) >= 4) {
+            setLoading(false);
+            dispatch(recordActions.setError({
+                status,
+                message : '에러가 발생했습니다.'
+            }));
+        }
+
+        if(title.length && professor.length) 
+            setButtonDisEnabled(false);
+        else    setButtonDisEnabled(true);
+
+
+    }, [token, history, recordInfo, status, title, professor, loading]);
 
     const handleChangeInput = (e) => {
         const { name, value } = e.target;
@@ -51,6 +72,8 @@ function RecordingContainer() {
 
     //녹음하기
     const handleOnRec = () => {
+        dispatch(recordActions.initialize());
+
         if(!navigator.mediaDevices) {
             dispatch(recordActions.setError({
                 message : '이 브라우저는 녹음을 진행할 수 없습니다.'
@@ -63,16 +86,6 @@ function RecordingContainer() {
             analyser.connect(audioCtx.destination);
             setAnalyser(analyser);
         
-            // const makeSound = stream => {
-            //   // 내 컴퓨터의 마이크나 다른 소스를 통해 발생한 오디오 스트림의 정보를 보여준다.
-            //   const source = audioCtx.createMediaStreamSource(stream);
-            //   setSource(source);
-              
-            //   // AudioBufferSourceNode 연결
-            //   source.connect(analyser);
-            //   analyser.connect(audioCtx.destination);
-            // }
-
             //녹음 시작
             navigator.mediaDevices.getUserMedia({ audio : true }).then(stream => {
                 const mediaRecorder = new MediaRecorder(stream);
@@ -106,14 +119,11 @@ function RecordingContainer() {
         setRecordComplete(true);
 
         analyser.disconnect();
-        // source.disconnect();
 
     };
 
     //녹음된 오디오 파일로 저장 및 script를 만들어서 status에 저장한다.
     const handleSaveAudioFile = () => {
-        const title = record.getIn(['input', 'title']);
-        const professor = record.getIn(['input', 'professor']);
 
         const file = new File([audioUrl], title + '.ogg', { 
             lastModified : new Date().getTime(), type : 'audio/ogg codecs=opus' 
@@ -130,6 +140,7 @@ function RecordingContainer() {
     };
 
     
+    //to DO : 모달 팝업 만들기 : Loading
     return (
         <MainWrapper center = {
             onRec ?
@@ -137,20 +148,18 @@ function RecordingContainer() {
             :
             <RecordingComponent onClick = {handleOnRec} image = 'record_start'/>
         } down = {
-            <>
-                {
-                    recordComplete ? 
-                    <>
-                        <input name = 'title' onChange = {handleChangeInput}/>
-                        <input name = 'professor' onChange = {handleChangeInput}/>
-                        <button onClick = {handleSaveAudioFile}>PDF로 만들러 가기</button>
-                        {
-                            loading ? <Loading/> : <></>
-                        }
-                    </> : 
-                    <></>
-                }
-            </>
+            recordComplete ? 
+                <>
+                    <RecordingInputComponent 
+                        onChange = {handleChangeInput} 
+                        onClick = {handleSaveAudioFile}
+                        disabled = {buttonDisEnabled}
+                    />
+                    <Modal open = {loading} header = "Loading"> 
+                        <Loading/>
+                    </Modal><></>
+                </> : 
+            <></>
         }/>
     );
 };

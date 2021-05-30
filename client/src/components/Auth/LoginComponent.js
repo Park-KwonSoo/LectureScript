@@ -38,7 +38,7 @@ const LoginHeader = styled.div `
     padding : .5rem 3rem;
 `;
 
-const Input_Id = styled.input.attrs({
+const InputId = styled.input.attrs({
     type : 'email',
     name : 'email',
     placeholder : 'Email'
@@ -62,7 +62,7 @@ const Input_Id = styled.input.attrs({
 
 `;
 
-const Input_Pw = styled.input.attrs({
+const InputPw = styled.input.attrs({
     type : 'password',
     name : 'password',
     placeholder : 'Password'
@@ -85,7 +85,7 @@ const Input_Pw = styled.input.attrs({
     }
 `;
 
-const Button_Login = styled.button `
+const ButtonLogin = styled.button `
     border : transparent;
     border-radius : 3px;
 
@@ -116,9 +116,9 @@ const LoginComponent = ({disabled, onChange, onClick}) => {
         <Positional>
             <LoginHeader>Login</LoginHeader>
             <Wrapper>
-                <Input_Id onChange = {onChange}></Input_Id>
-                <Input_Pw onChange = {onChange}></Input_Pw>
-                <Button_Login disabled = {disabled} onClick = {onClick}>로그인</Button_Login>
+                <InputId onChange = {onChange}/>
+                <InputPw onChange = {onChange}/>
+                <ButtonLogin disabled = {disabled} onClick = {onClick}>로그인</ButtonLogin>
             </Wrapper>
         </Positional>
     )

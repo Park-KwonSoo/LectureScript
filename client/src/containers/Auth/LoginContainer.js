@@ -70,7 +70,7 @@ function LoginContainer () {
             setLoginDisable(false);
         } else setLoginDisable(true);
 
-    }, [token, dispatch, validate, loginDisable]);
+    }, [token, dispatch, validate, loginDisable, auth, history]);
     
 
     const handleChangeInput = (e) => {

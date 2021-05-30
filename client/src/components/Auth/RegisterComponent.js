@@ -38,7 +38,7 @@ const RegisterHeader = styled.div `
     padding : .5rem 3rem;
 `;
 
-const Input_Id = styled.input.attrs({
+const InputId = styled.input.attrs({
     type : 'email',
     name : 'email',
     placeholder : 'Email'
@@ -62,7 +62,7 @@ const Input_Id = styled.input.attrs({
 
 `;
 
-const Input_Name = styled.input.attrs({
+const InputName = styled.input.attrs({
     name : 'name',
     placeholder : 'Name'
 }) `
@@ -85,7 +85,7 @@ const Input_Name = styled.input.attrs({
 
 `;
 
-const Input_Pw = styled.input.attrs({
+const InputPw = styled.input.attrs({
     type : 'password'
 }) `
     font-family : 'Jua';
@@ -113,7 +113,7 @@ const ButtonWrapper = styled.div `
     margin : 1rem 0;
 `;
 
-const Button_Register = styled.button `
+const ButtonRegister = styled.button `
     border : transparent;
     border-radius : 3px;
 
@@ -166,12 +166,12 @@ const RegisterComponent = ({disabled, onChange, onClick, cancel}) => {
         <Positional>
             <RegisterHeader>Register</RegisterHeader>
             <Wrapper>
-                <Input_Id onChange = {onChange}/>
-                <Input_Name onChange = {onChange}/>
-                <Input_Pw name = 'password' placeholder = 'Password' onChange = {onChange}/>
-                <Input_Pw name = 'passwordConfirm' placeholder = 'Password Confirm' onChange = {onChange}/>
+                <InputId onChange = {onChange}/>
+                <InputName onChange = {onChange}/>
+                <InputPw name = 'password' placeholder = 'Password' onChange = {onChange}/>
+                <InputPw name = 'passwordConfirm' placeholder = 'Password Confirm' onChange = {onChange}/>
                 <ButtonWrapper>
-                    <Button_Register disabled = {disabled} onClick = {onClick}>회원 가입</Button_Register>
+                    <ButtonRegister disabled = {disabled} onClick = {onClick}>회원 가입</ButtonRegister>
                     <CancelButton onClick = {cancel}>취소</CancelButton>
                 </ButtonWrapper>
             </Wrapper>

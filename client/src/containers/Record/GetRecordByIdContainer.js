@@ -7,6 +7,7 @@ import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
 import { MainWrapper } from '../../components/Base';
+import { OneRecordingView } from '../../components/Record';
 
 
 function GetRecordByIdContainer ({match}) {
@@ -23,11 +24,9 @@ function GetRecordByIdContainer ({match}) {
             history.push('/');
         }
 
-        if(token && !recordInfo) {
-            handleGetRecord();
-        };
+        handleGetRecord();
 
-    }, [token, recordInfo]);
+    }, [token, history]);
 
 
     const handleGetRecord = () => {
@@ -54,18 +53,11 @@ function GetRecordByIdContainer ({match}) {
     return (
         recordInfo ?
         <MainWrapper center = {
-            <>
-                <div>{'title : ' + recordInfo.title}</div>
-                <div>{'professor : ' + recordInfo.professor}</div>
-                <div>{'createdDate :' + recordInfo.createdDate}</div>
-                <div>{'typeScript : ' + recordInfo.typeScript}</div>
-                <button onClick = {handleMakePdf}>PDF로 만들기</button>
-                
-            </>
-        }/>
-        :
-        <>
-        </>
+            <OneRecordingView onClick = {handleMakePdf}>
+                {recordInfo}
+            </OneRecordingView>
+        }/> :
+        <></>
     );
 };
 

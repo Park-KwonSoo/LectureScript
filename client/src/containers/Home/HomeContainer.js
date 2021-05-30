@@ -14,7 +14,7 @@ function HomeContainer () {
         if(token)
             history.push('/record');
 
-    }, [token]);
+    }, [token, history]);
 
     const handleLogin = () => {
         history.push('/auth/login');

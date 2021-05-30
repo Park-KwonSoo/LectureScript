@@ -13,6 +13,7 @@ const Wrapper = styled.div `
 
 const LeftPosition = styled.div `
     flex : 2;
+    margin-left : 1rem;
 `;
 
 const CenterPosition = styled.div `
@@ -21,6 +22,7 @@ const CenterPosition = styled.div `
 
 const RightPosition = styled.div `
     flex : 2;
+    margin-right : 1rem;
 `;
 
 const PositionWrapper = styled.div `

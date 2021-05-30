@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, useHistory } from 'react-router-dom';
 
 import * as authActions from './redux/modules/auth';
+import * as pdfActions from './redux/modules/pdf';
+import * as recordActions from './redux/modules/record';
+
 import storage from './lib/storage';
 
 import { Auth, Home, Pdf, Record } from './pages';
 
-import { Header, HeaderButton } from './components/Base';
+import { BackButton, Header, HeaderButton } from './components/Base';
 
 function App() {
   const token = useSelector(state => state.auth.get('token'));
@@ -23,7 +26,13 @@ function App() {
   }, [history, storagedToken, token, dispatch]);
 
   const handleGoHome = () => {
+    dispatch(recordActions.initialize());
+    dispatch(pdfActions.initialize());
     history.push('/');
+  };
+
+  const handleGoBack = () => {
+    history.goBack();
   };
 
   const handleRegister = () => {
@@ -43,7 +52,7 @@ function App() {
       {
         token ?
         <Header onClick = {handleGoHome}
-          Left_Button = {'뒤로가기 혹은 홈버튼 설정'}
+          Left_Button = {<BackButton onClick = {handleGoBack}/>}
           Right_left_Button = {<HeaderButton button_name = '내 기록' onClick = {handleGetMyRecordList}/>}
           Right_right_Button = {<HeaderButton button_name = 'Logout' onClick = {handleLogout}/>}
         /> : 

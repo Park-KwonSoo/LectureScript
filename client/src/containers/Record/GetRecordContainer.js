@@ -1,19 +1,27 @@
 //현재 로그인한 유저의 recording data를 불러오는 container = 즉 여태까지의 출력 리스트를 가져온다.
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
-import { MainWrapper } from '../../components/Base';
+import { MainWrapper, Pagination } from '../../components/Base';
+import { MyRecordListComponent } from '../../components/Record';
+
 
 function GetRecordContainer () {
     const token = useSelector(state => state.auth.get('token'));
     const myRecordList = useSelector(state => state.record.get('myRecordList'));
 
+    //페이지네이션
+    const [posts, setPosts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);  //첫 페이지는 1
+    const [postsPerPage] = useState(10);    //한 페이지당 10개
+
     const history = useHistory();
     const dispatch = useDispatch();
+
 
     useEffect(() => {
         if(!token && !storage.get('token'))
@@ -21,14 +29,13 @@ function GetRecordContainer () {
         
         if(!myRecordList) {
             handleGetMyRecordList();
+        } else {
+            const indexOfLastPost = currentPage * postsPerPage;
+            const indexOfFirsPost = indexOfLastPost - postsPerPage;
+            setPosts(myRecordList.slice(indexOfFirsPost, indexOfLastPost));
         }
 
-        //unmount 함수
-        return () => {
-            dispatch(recordActions.initialize());
-        }
-
-    }, [token, history, dispatch]);
+    }, [token, history, myRecordList, currentPage]);
 
     const handleGetMyRecordList = () => {
         try {
@@ -44,16 +51,26 @@ function GetRecordContainer () {
         }
     };
 
+    const handlePagenate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
-    //toDO : 리스트 클릭 시 해당 페이지로 이동하도록
+
     return (
-        myRecordList ?
         <MainWrapper center = {
-            <>
-                <li>{myRecordList.map(record => record.title + record.id)}</li>
-            </>
-        }/> :
-        <></>
+            myRecordList ? 
+            <MyRecordListComponent
+                pagination = {
+                    <Pagination
+                        postsPerPage = {postsPerPage}
+                        totalPosts = {myRecordList.length}
+                        paginate = {handlePagenate}
+                    />
+                }
+                >{posts}</MyRecordListComponent>
+            :
+            <></>
+        }/>
     );
 };
 

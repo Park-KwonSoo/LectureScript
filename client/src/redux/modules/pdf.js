@@ -5,6 +5,7 @@ import { Map } from 'immutable';
 
 //Actions
 const INITIALIZE = 'pdf/INITIALIZE';
+const INITILAIZE_RESULT = 'pdf/INITIALIZE_RESULT';
 const SET_ERROR = 'pdf/SET_ERROR';
 const SET_CHANGE_CREATED_DATE = 'pdf/SET_CHANGE_CREATED_DATE';
 
@@ -13,6 +14,7 @@ const MAKE_PDF = 'pdf/MAKE_PDF';
 
 //create Actions
 export const initialize = createAction(INITIALIZE);
+export const initializeResult = createAction(INITILAIZE_RESULT);
 export const setError = createAction(SET_ERROR);
 export const setChangeCreatedDate = createAction(SET_CHANGE_CREATED_DATE);
 
@@ -34,6 +36,10 @@ const initialState = Map({
 //export
 export default handleActions({
     [INITIALIZE] : () => initialState,
+    [INITILAIZE_RESULT] : (state) => {
+        const initialResult = initialState.get('result');
+        return state.set('result', initialResult);
+    },
     [SET_ERROR] : (state, action) => {
         const { status, message } = action.payload;
         return state.set('error', message).set('status', status);

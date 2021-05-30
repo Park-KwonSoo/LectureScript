@@ -15,18 +15,7 @@ const Wrapper = styled.div `
     flex-direction : column;
 `;
 
-const Up = styled.div `
-    flex : 1;
-`;
-
-const Center = styled.div `
-    flex : 1;
-    display : flex;
-    align-items : center;
-    justify-content : center;
-`;
-
-const Down = styled.div `
+const Position = styled.div `
     flex : 1;
     display : flex;
     align-items : center;
@@ -37,9 +26,9 @@ const MainWrapper = ({up, center, down}) => {
     return (
         <Positioner>
             <Wrapper>
-                <Up>{up}</Up>
-                <Center>{center}</Center>
-                <Down>{down}</Down>
+                <Position>{up}</Position>
+                <Position>{center}</Position>
+                <Position>{down}</Position>
             </Wrapper>
         </Positioner>
     );

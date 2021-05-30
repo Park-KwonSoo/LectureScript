@@ -6,6 +6,7 @@ import { Map } from 'immutable';
 
 //Actions
 const INITIALIZE = 'record/INITIALIZE';
+const INITIALIZE_EXCEPT_INFO = 'record/INITIALIZE_EXCEPT_INFO';
 const SET_ERROR = 'record/SET_ERROR';
 const CHANGE_INPUT = 'record/CHANGE_INPUT';
 
@@ -16,6 +17,7 @@ const GET_RECORD_BY_ID = 'record/GET_RECORD_BY_ID';
 
 //create Actions
 export const initialize = createAction(INITIALIZE);
+export const initializeExceptInfo = createAction(INITIALIZE_EXCEPT_INFO);
 export const setError = createAction(SET_ERROR);
 export const changeInput = createAction(CHANGE_INPUT);
 
@@ -40,6 +42,10 @@ const initialState = Map({
 //export
 export default handleActions({
     [INITIALIZE] : () => initialState,
+    [INITIALIZE_EXCEPT_INFO] : (state) => {
+        const initialInput = initialState.get('input');
+        return state.set('input', initialInput).set('myRecordList', null).set('status', null).set('error', null);
+    },
     [SET_ERROR] : (state, action) => {
         const { status, message } = action.payload;
         return state.set('error', message).set('status', status);

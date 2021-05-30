@@ -68,7 +68,9 @@ function RegisterContainer () {
 
     useEffect(() => {
         if(success) {
+            alert('회원가입에 성공했습니다!');
             history.push('/');
+            dispatch(authActions.initialize());
         }
 
         if(validate['email'](auth.getIn(['register', 'email']))
@@ -85,7 +87,7 @@ function RegisterContainer () {
             setRegisterDisable(false);
         } else  setRegisterDisable(true);
 
-    }, [success, dispatch, registerDisable, validate]);
+    }, [history, auth, success, dispatch, registerDisable, validate]);
 
 
 
