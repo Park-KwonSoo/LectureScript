@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
-import { Loading, MainWrapper, Modal } from '../../components/Base';
+import { Loading, MainWrapper, Modal, ErrorComponent } from '../../components/Base';
 import { RecordingComponent, RecordingInputComponent } from '../../components/Record';
 
 
@@ -18,6 +18,8 @@ function RecordingContainer() {
     const title = record.getIn(['input', 'title']);
     const professor = record.getIn(['input', 'professor']);
     const recordInfo = record.get('recordInfo');
+
+    const error = record.get('error');
     const status = record.get('status');
 
 
@@ -60,7 +62,7 @@ function RecordingContainer() {
         else    setButtonDisEnabled(true);
 
 
-    }, [token, history, recordInfo, status, title, professor, loading]);
+    }, [token, history, recordInfo, error, status, title, professor, loading]);
 
     const handleChangeInput = (e) => {
         const { name, value } = e.target;
@@ -101,7 +103,7 @@ function RecordingContainer() {
             }).catch(() => {
                 dispatch(recordActions.setError({
                     status : 500,
-                    message : '알 수 없는 에러가 발생했습니다.'
+                    message : '녹음 중 문제가 발생했습니다.'
                 }));
             });
         }
@@ -148,7 +150,9 @@ function RecordingContainer() {
             :
             <RecordingComponent onClick = {handleOnRec} image = 'record_start'/>
         } down = {
-            recordComplete ? 
+            <>
+            {
+                recordComplete ? 
                 <>
                     <RecordingInputComponent 
                         onChange = {handleChangeInput} 
@@ -159,7 +163,14 @@ function RecordingContainer() {
                         <Loading/>
                     </Modal><></>
                 </> : 
-            <></>
+                <></>
+            }
+            {
+                <ErrorComponent open = {error}>
+                    {`${status} : ${error}`}
+                </ErrorComponent>
+            }
+            </>
         }/>
     );
 };

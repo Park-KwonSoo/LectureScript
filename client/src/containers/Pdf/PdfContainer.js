@@ -7,14 +7,17 @@ import * as pdfActions from '../../redux/modules/pdf';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
-import { MainWrapper, Modal, Loading } from '../../components/Base';
+import { MainWrapper, Modal, Loading, ErrorComponent } from '../../components/Base';
 import { MakePdfComponent } from '../../components/Pdf';
 
 
 function PdfContainer() {
     const pdf = useSelector(state => state.pdf);
-    const token = useSelector(state => state.auth.get('token'))
+    const token = useSelector(state => state.auth.get('token'));
+
     const recordInfo = useSelector(state => state.record.get('recordInfo'));
+    const error = pdf.get('error');
+    const status = pdf.get('status');
 
     const downloadPath = pdf.getIn(['result', 'path']);
 
@@ -35,7 +38,7 @@ function PdfContainer() {
             dispatch(recordActions.initialize());
         };
 
-    }, [token, history, dispatch, downloadPath]);
+    }, [token, history, dispatch, downloadPath, error]);
 
     const handleChangeDate = (e) => {
         const { value } = e.target;
@@ -49,7 +52,7 @@ function PdfContainer() {
         try {
             dispatch(pdfActions.initializeResult());
             setLoading(true);
-            
+
             const { title, professor, typeScript } = recordInfo;
             const createdDate = pdf.get('createdDate');
 
@@ -87,9 +90,14 @@ function PdfContainer() {
                 link = {handleGoToDownloadPath}
             />
         } down = {
-            <Modal open = {loading} header = "PDF를 생성하는 중입니다">
-                <Loading/>
-            </Modal>
+            <>
+                <Modal open = {loading} header = "PDF를 생성하는 중입니다">
+                    <Loading/>
+                </Modal>
+                <ErrorComponent open = {error}>
+                    {`${status} : ${error}`}
+                </ErrorComponent>
+            </>
         }/>
     );
 };

@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
-import { MainWrapper } from '../../components/Base';
+import { MainWrapper, ErrorComponent } from '../../components/Base';
 import { OneRecordingView } from '../../components/Record';
 
 
@@ -15,6 +15,9 @@ function GetRecordByIdContainer ({match}) {
 
     const recordInfo = useSelector(state => state.record.get('recordInfo'));
     const token = useSelector(state => state.auth.get('token'));
+
+    const error = useSelector(state => state.record.get('error'));
+    const status = useSelector(state => state.record.get('status'));
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -26,7 +29,7 @@ function GetRecordByIdContainer ({match}) {
 
         handleGetRecord();
 
-    }, [token, history]);
+    }, [token, history, error]);
 
 
     const handleGetRecord = () => {
@@ -56,6 +59,10 @@ function GetRecordByIdContainer ({match}) {
             <OneRecordingView onClick = {handleMakePdf}>
                 {recordInfo}
             </OneRecordingView>
+        } down = {
+            <ErrorComponent open = {error}>
+                {`${status} : ${error}`}
+            </ErrorComponent>
         }/> :
         <></>
     );

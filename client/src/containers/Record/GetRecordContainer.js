@@ -6,13 +6,16 @@ import { useHistory } from 'react-router-dom';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
-import { MainWrapper, Pagination } from '../../components/Base';
+import { MainWrapper, Pagination, ErrorComponent } from '../../components/Base';
 import { MyRecordListComponent } from '../../components/Record';
 
 
 function GetRecordContainer () {
     const token = useSelector(state => state.auth.get('token'));
     const myRecordList = useSelector(state => state.record.get('myRecordList'));
+    
+    const error = useSelector(state => state.record.get('error'));
+    const status = useSelector(state => state.record.get('status'));
 
     //페이지네이션
     const [posts, setPosts] = useState([]);
@@ -66,10 +69,16 @@ function GetRecordContainer () {
                         totalPosts = {myRecordList.length}
                         paginate = {handlePagenate}
                     />
-                }
-                >{posts}</MyRecordListComponent>
+                }>{posts}
+            </MyRecordListComponent>
             :
-            <></>
+            <div>
+                정보를 불러올 수 없습니다
+            </div>
+        } down = {
+            <ErrorComponent open = {error}>
+                {`${status} : ${error}`}
+            </ErrorComponent>
         }/>
     );
 };

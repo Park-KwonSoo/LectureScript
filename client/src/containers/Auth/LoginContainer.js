@@ -13,7 +13,8 @@ import { isEmail, isLength } from 'validator';
 
 function LoginContainer () {
     const auth = useSelector(state => state.auth);
-    const token = useSelector(state => state.auth.get('token'));
+
+    const token = auth.get('token');
 
     const [loginDisable, setLoginDisable] = useState(true);
 
