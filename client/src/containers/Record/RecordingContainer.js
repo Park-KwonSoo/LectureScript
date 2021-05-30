@@ -6,7 +6,8 @@ import { useHistory } from 'react-router-dom';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
-import { HomeButton, Loading, MainWrapper } from '../../components/Base';
+import { Loading, MainWrapper } from '../../components/Base';
+import { RecordingComponent } from '../../components/Record';
 
 
 function RecordingContainer() {
@@ -128,18 +129,15 @@ function RecordingContainer() {
 
     };
 
-    const handleGoHome = () => {
-        history.push('/');
-    };
-
-
+    
     return (
         <MainWrapper center = {
             onRec ?
-            <button onClick = {handleOffRec}>녹음 중지</button> 
+            <RecordingComponent onClick = {handleOffRec} image = 'recording'/>
             :
+            <RecordingComponent onClick = {handleOnRec} image = 'record_start'/>
+        } down = {
             <>
-                <button onClick = {handleOnRec}>녹음 하기</button>
                 {
                     recordComplete ? 
                     <>
@@ -153,8 +151,6 @@ function RecordingContainer() {
                     <></>
                 }
             </>
-        } down = {
-            <HomeButton onClick = {handleGoHome}/>
         }/>
     );
 };

@@ -7,7 +7,7 @@ import * as pdfActions from '../../redux/modules/pdf';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
-import { HomeButton, MainWrapper} from '../../components/Base';
+import { MainWrapper} from '../../components/Base';
 
 
 function PdfContainer() {
@@ -24,7 +24,12 @@ function PdfContainer() {
         if(!token && !storage.get('token'))
             history.push('/');
 
-    }, [token, history, downloadPath]);
+        return () => {
+            dispatch(pdfActions.initialize());
+            dispatch(recordActions.initialize());
+        };
+
+    }, [token, history, dispatch, downloadPath]);
 
     const handleChangeDate = (e) => {
         const { value } = e.target;
@@ -59,10 +64,6 @@ function PdfContainer() {
         }
     };
 
-    const handleGoHome = () => {
-        history.push('/')
-    };
-
 
     return (
         <MainWrapper center = {
@@ -77,8 +78,6 @@ function PdfContainer() {
                     <></>    
                 }
             </>
-        } down = {
-            <HomeButton onClick = {handleGoHome}/>
         }/>
     );
 };

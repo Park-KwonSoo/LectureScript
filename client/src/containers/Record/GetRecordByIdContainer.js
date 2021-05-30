@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
-import { HomeButton, MainWrapper } from '../../components/Base';
+import { MainWrapper } from '../../components/Base';
 
 
 function GetRecordByIdContainer ({match}) {
@@ -50,10 +50,6 @@ function GetRecordByIdContainer ({match}) {
         history.push('/pdf');
     };
 
-    const handleGoHome = () => {
-        history.push('/');
-    };
-
 
     return (
         recordInfo ?
@@ -66,8 +62,6 @@ function GetRecordByIdContainer ({match}) {
                 <button onClick = {handleMakePdf}>PDF로 만들기</button>
                 
             </>
-        } down = {
-            <HomeButton onClick = {handleGoHome}/>
         }/>
         :
         <>
