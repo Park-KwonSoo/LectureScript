@@ -61,14 +61,6 @@ const View = styled.div `
     margin-bottom : 1rem;
 `;
 
-const TextView = styled.div `
-    font-family : 'Jua';    
-    font-size : 1.5rem;
-
-    color : ${oc.indigo[3]};
-    margin-bottom : 1rem;
-`;
-
 const Button = styled.button `
     background : ${oc.indigo[3]};
     border : transparent;
@@ -95,7 +87,7 @@ const OneRecordingView = ({children, onClick}) => {
         <Wrapper>
             <Header>PDF 정보</Header>
             <Item>
-                <CreatedDateWrapper>생성일</CreatedDateWrapper>
+                <CreatedDateWrapper>수업일</CreatedDateWrapper>
                 <CreatedDate>{children.createdDate.slice(0, 10)}</CreatedDate>
 
                 <Info>강의명</Info>
@@ -103,9 +95,6 @@ const OneRecordingView = ({children, onClick}) => {
                 
                 <Info>강의자</Info>
                 <View>{children.professor}</View>
-
-                <Info>내용</Info>
-                <TextView>{children.typeScript}</TextView>
 
                 <Button onClick = {onClick}>PDF 만들기</Button>
             </Item>

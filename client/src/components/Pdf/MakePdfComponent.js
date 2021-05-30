@@ -16,6 +16,17 @@ const Wrapper = styled.div `
     transition : .25s all;
 `;
 
+const Title = styled.div `
+    font-size : 2.4rem;
+    color : ${oc.indigo[3]};
+
+    display : flex;
+    justify-content : center;
+    align-items : center;
+
+    margin-bottom : 1.5rem;
+`;
+
 const DateInput = styled.input.attrs({
     type : 'date',
     name : 'createdDate'
@@ -88,12 +99,12 @@ const LinkButton = styled.button `
 const MakePdfComponent = ({onChange, onClick, isLink, link}) => {
     return (
         <Wrapper>
+            <Title>강의 날짜 선택</Title>
             <DateInput onChange = {onChange}/>
-            <Button onClick = {onClick}>PDF 파일 생성</Button>
             {
                 isLink ?
                 <LinkButton onClick = {link}>다운로드</LinkButton> :
-                <></>
+                <Button onClick = {onClick}>PDF 파일 생성</Button>
             }
         </Wrapper>
     )

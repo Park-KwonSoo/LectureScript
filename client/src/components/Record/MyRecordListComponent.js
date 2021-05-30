@@ -81,7 +81,7 @@ const MyRecordListComponent = ({children, pagination}) => {
                     <ListItem>고유 번호</ListItem>
                     <ListItem>강의명</ListItem>
                     <ListItem>강의자</ListItem>
-                    <ListItem>생성일</ListItem>
+                    <ListItem>수업일</ListItem>
                 </ListHead>
                 {
                     children.map(record => {

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import * as pdfActions from '../../redux/modules/pdf';
 import * as recordActions from '../../redux/modules/record';
 import storage from '../../lib/storage';
 
@@ -49,6 +50,7 @@ function GetRecordByIdContainer ({match}) {
 
 
     const handleMakePdf = () => {
+        dispatch(pdfActions.initialize());
         history.push('/pdf');
     };
 

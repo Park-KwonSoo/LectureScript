@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import * as authActions from '../../redux/modules/auth';
 import storage from '../../lib/storage';
 
-import { MainWrapper } from '../../components/Base';
+import { MainWrapper, ErrorComponent } from '../../components/Base';
 import { LoginComponent } from '../../components/Auth';
 
 import { isEmail, isLength } from 'validator';
@@ -15,8 +15,10 @@ function LoginContainer () {
     const auth = useSelector(state => state.auth);
 
     const token = auth.get('token');
+    const error = auth.get('error');
+    const status = auth.getIn(['login', 'status']);
 
-    const [loginDisable, setLoginDisable] = useState(true);
+    const [loginError, setLoginError] = useState(true);
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -24,22 +26,14 @@ function LoginContainer () {
     const validate = {
         email : (value) => {
             if(!isEmail(value)) {
-                dispatch(authActions.setError({
-                    form : 'login',
-                    status : 400,
-                    message : "올바르지 않은 이메일입니다."
-                }));
+                setLoginError(true);
                 return false;
             }
             return true;
         },
         password : (value) => {
             if(!isLength(value, { min : 8 })) {
-                dispatch(authActions.setError({
-                    form : 'login',
-                    status : 400,
-                    message : '비밀번호를 8자 이상 입력하세요.'
-                }));
+                setLoginError(true);
                 return false;
             }
             return true;
@@ -63,15 +57,10 @@ function LoginContainer () {
         if(validate['email'](auth.getIn(['login', 'email'])) 
             && validate['password'](auth.getIn(['login', 'password']))
         ) {
-            dispatch(authActions.setError({
-                form : 'login',
-                status : 200,
-                message : null
-            }));
-            setLoginDisable(false);
-        } else setLoginDisable(true);
+            setLoginError(false);
+        } else setLoginError(true);
 
-    }, [token, dispatch, validate, loginDisable, auth, history]);
+    }, [token, dispatch, validate, loginError, auth, history]);
     
 
     const handleChangeInput = (e) => {
@@ -104,7 +93,11 @@ function LoginContainer () {
 
     return (
         <MainWrapper center = {
-            <LoginComponent disabled = {loginDisable} onChange = {handleChangeInput} onClick = {handleLogin}/>
+            <LoginComponent disabled = {loginError} onChange = {handleChangeInput} onClick = {handleLogin}/>
+        } down = {
+            <ErrorComponent open = {error || status >= 400}>
+                {`${status} : ${error}`}
+            </ErrorComponent>
         }/>
     );
 };

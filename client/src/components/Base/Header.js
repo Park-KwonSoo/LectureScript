@@ -38,7 +38,7 @@ const Title = styled.div `
     transition : .25s all;
 
     &:hover {
-        color : ${oc.gray[6]};
+        color : ${oc.violet[7]};
         cursor : pointer;
     }
 `;
