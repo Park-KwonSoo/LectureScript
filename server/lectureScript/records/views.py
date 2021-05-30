@@ -15,7 +15,7 @@ class RecordingView(APIView) :
         if not request.user :
             raise exceptions.AuthenticationFailed('Not loggined')
 
-        data = Recording.objects.filter(email = request.user.get_username())
+        data = Recording.objects.filter(email = request.user.get_username()).order_by('-createdDate')
         if not data :
             raise exceptions.NotFound('Not Found Data')
 

@@ -96,7 +96,7 @@ const OneRecordingView = ({children, onClick}) => {
             <Header>PDF 정보</Header>
             <Item>
                 <CreatedDateWrapper>생성일</CreatedDateWrapper>
-                <CreatedDate>{children.createdDate}</CreatedDate>
+                <CreatedDate>{children.createdDate.slice(0, 10)}</CreatedDate>
 
                 <Info>강의명</Info>
                 <View>{children.title}</View>
