@@ -1,28 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { MainWrapper } from '../../components/Base';
-
+import { HomeComponent } from '../../components/Home';
 
 function HomeContainer () {
     const token = useSelector(state => state.auth.get('token'));
 
     const history = useHistory();
 
-    const handleGoToRecordMenu = () => {
-        history.push('/record')
+    useEffect(() => {
+        if(token)
+            history.push('/record');
+
+    }, [token]);
+
+    const handleLogin = () => {
+        history.push('/auth/login');
     };
+
 
     return (
         <MainWrapper center = {
             token ? 
-            <>
-                <div>로그인 완료</div>
-                <button onClick = {handleGoToRecordMenu}>녹음하기</button>
-            </>
+            <></>
             :
-            <div>Home</div>            
+            <HomeComponent onClick = {handleLogin}/>           
         }/>
     );
 };

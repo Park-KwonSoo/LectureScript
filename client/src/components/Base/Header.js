@@ -9,20 +9,18 @@ const Wrapper = styled.div `
     display : flex;
     align-items : center;
     justify-content : center;
-
-    padding-left : 1rem;
-    padding-right : 1rem;
 `;
+
 const LeftPosition = styled.div `
-    flex : 1;
+    flex : 2;
 `;
 
 const CenterPosition = styled.div `
-    flex : 1;
+    flex : 3;
 `;
 
 const RightPosition = styled.div `
-    flex : 1;
+    flex : 2;
 `;
 
 const PositionWrapper = styled.div `
@@ -31,13 +29,19 @@ const PositionWrapper = styled.div `
     justify-content : center;
 `;
 
-
 const Title = styled.div `
     font-size : 2.4rem;
     color : white;
+
+    transition : .25s all;
+
+    &:hover {
+        color : ${oc.gray[6]};
+        cursor : pointer;
+    }
 `;
 
-const Header = ({Left_Button, Right_left_Button, Right_right_Button}) => {
+const Header = ({Left_Button, Right_left_Button, Right_right_Button, onClick}) => {
     return (
         <Wrapper>
             <LeftPosition>
@@ -45,7 +49,7 @@ const Header = ({Left_Button, Right_left_Button, Right_right_Button}) => {
             </LeftPosition>
             <CenterPosition>
                 <PositionWrapper>
-                    <Title>
+                    <Title onClick = {onClick}>
                         Lecture Script
                     </Title>
                 </PositionWrapper>

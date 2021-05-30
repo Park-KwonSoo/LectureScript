@@ -13,7 +13,6 @@ const Positioner = styled.div `
 const Wrapper = styled.div `
     display : flex;
     flex-direction : column;
-    flex : 1
 `;
 
 const Up = styled.div `
@@ -22,10 +21,16 @@ const Up = styled.div `
 
 const Center = styled.div `
     flex : 1;
+    display : flex;
+    align-items : center;
+    justify-content : center;
 `;
 
 const Down = styled.div `
     flex : 1;
+    display : flex;
+    align-items : center;
+    justify-content : center;
 `;
 
 const MainWrapper = ({up, center, down}) => {

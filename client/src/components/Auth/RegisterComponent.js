@@ -106,15 +106,23 @@ const Input_Pw = styled.input.attrs({
     }
 `;
 
-const Button_Login = styled.button `
+const ButtonWrapper = styled.div `
+    display : flex;
+    align-items : center;
+    justify-content : center;
+    margin : 1rem 0;
+`;
+
+const Button_Register = styled.button `
     border : transparent;
     border-radius : 3px;
 
-    padding : .5rem 3rem;
-    margin : 1rem 0;
+    padding : .5rem 2rem;
+    margin : 0rem .5rem;
 
-    cursor : pointer;
+    cursor : not-allowed;
 
+    background : ${oc.gray[3]};
 
     font-family : 'Jua';
     font-size : 1.3rem;
@@ -122,14 +130,38 @@ const Button_Login = styled.button `
 
     transition : .25s all;
 
-    &:hover {
-        background : white;
-        color : ${oc.indigo[3]};
-        border : 2px solid ${oc.indigo[3]};
+    :not(:disabled) {
+        cursor : pointer;
+        background : ${oc.indigo[3]};
+        &:hover {
+            background : ${oc.indigo[4]};
+        }
     }
 `;
 
-const RegisterComponent = ({disabled, onChange, onClick}) => {
+const CancelButton = styled.button `
+    background : ${oc.indigo[3]};
+    color : white;
+    
+    font-family : 'Jua';
+    font-size : 1.3rem;
+
+    cursor : pointer;
+
+    border : transparent;
+    border-radius : 3px;
+
+    padding : .5rem 2rem;
+    margin : 0 .5rem;
+
+    transition : .25s all;
+
+    &:hover {
+        background : ${oc.indigo[4]};
+    }
+`;
+
+const RegisterComponent = ({disabled, onChange, onClick, cancel}) => {
     return (
         <Positional>
             <RegisterHeader>Register</RegisterHeader>
@@ -138,8 +170,10 @@ const RegisterComponent = ({disabled, onChange, onClick}) => {
                 <Input_Name onChange = {onChange}/>
                 <Input_Pw name = 'password' placeholder = 'Password' onChange = {onChange}/>
                 <Input_Pw name = 'passwordConfirm' placeholder = 'Password Confirm' onChange = {onChange}/>
-                <Button_Login disabled = {disabled} style = {disabled ? null : {background : `${oc.indigo[3]}`}} 
-                    onClick = {onClick}>회원 가입</Button_Login>
+                <ButtonWrapper>
+                    <Button_Register disabled = {disabled} onClick = {onClick}>회원 가입</Button_Register>
+                    <CancelButton onClick = {cancel}>취소</CancelButton>
+                </ButtonWrapper>
             </Wrapper>
         </Positional>
     )

@@ -22,12 +22,12 @@ function App() {
 
   }, [history, storagedToken, token, dispatch]);
 
-  const handleRegister = () => {
-    history.push('/auth/register');
+  const handleGoHome = () => {
+    history.push('/');
   };
 
-  const handleLogin = () => {
-    history.push('/auth/login');
+  const handleRegister = () => {
+    history.push('/auth/register');
   };
 
   const handleLogout = () => {
@@ -42,14 +42,13 @@ function App() {
     <>
       {
         token ?
-        <Header
+        <Header onClick = {handleGoHome}
           Left_Button = {'뒤로가기 혹은 홈버튼 설정'}
           Right_left_Button = {<HeaderButton button_name = '내 기록' onClick = {handleGetMyRecordList}/>}
           Right_right_Button = {<HeaderButton button_name = 'Logout' onClick = {handleLogout}/>}
         /> : 
-        <Header
-          Right_left_Button = {<HeaderButton button_name = '회원 가입' onClick = {handleRegister}/>}
-          Right_right_Button = {<HeaderButton button_name = 'Login' onClick = {handleLogin}/>}  
+        <Header onClick = {handleGoHome}
+          Right_right_Button = {<HeaderButton button_name = '회원 가입' onClick = {handleRegister}/>}
         />
       }
       <Route exact path = '/' component = { Home }/>

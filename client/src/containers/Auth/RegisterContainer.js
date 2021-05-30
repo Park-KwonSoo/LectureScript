@@ -14,8 +14,8 @@ function RegisterContainer () {
     const auth = useSelector(state => state.auth);
     const success = useSelector(state => state.auth.getIn(['register', 'success']))
 
-    const dispatch = useDispatch();
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const [registerDisable, setRegisterDisable] = useState(true);
 
@@ -98,7 +98,6 @@ function RegisterContainer () {
         }));
     };
 
-    //to Do : validate하기 = password 2번 입력받기
     const handleRegister = () => {
         try {
             const email = auth.getIn(['register', 'email']);
@@ -118,14 +117,18 @@ function RegisterContainer () {
                 message : '알 수 없는 에러가 발생했습니다.'
             }));
         }
-    }
+    };
 
-
+    const handleCancel = () => {
+        dispatch(authActions.initialize());
+        history.push('/');
+    };
 
 
     return (
         <MainWrapper center = {
-            <RegisterComponent disabled = {registerDisable} onChange = {handleChangeInput} onClick = {handleRegister}/>
+            <RegisterComponent disabled = {registerDisable} onChange = {handleChangeInput} 
+            onClick = {handleRegister} cancel = {handleCancel}/>
         }/>
     );
 };

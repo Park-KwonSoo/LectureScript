@@ -92,8 +92,9 @@ const Button_Login = styled.button `
     padding : .5rem 3rem;
     margin : 1rem 0;
 
-    cursor : pointer;
+    cursor : not-allowed;
 
+    background : ${oc.gray[3]};
 
     font-family : 'Jua';
     font-size : 1.3rem;
@@ -101,10 +102,12 @@ const Button_Login = styled.button `
 
     transition : .25s all;
 
-    &:hover {
-        background : white;
-        color : ${oc.indigo[3]};
-        border : 2px solid ${oc.indigo[3]};
+    :not(:disabled) {
+        cursor : pointer;
+        background : ${oc.indigo[3]};
+        &:hover {
+            background : ${oc.indigo[4]};
+        }
     }
 `;
 
@@ -115,8 +118,7 @@ const LoginComponent = ({disabled, onChange, onClick}) => {
             <Wrapper>
                 <Input_Id onChange = {onChange}></Input_Id>
                 <Input_Pw onChange = {onChange}></Input_Pw>
-                <Button_Login disabled = {disabled} style = {disabled ? null : {background : `${oc.indigo[3]}`}} 
-                    onClick = {onClick}>로그인</Button_Login>
+                <Button_Login disabled = {disabled} onClick = {onClick}>로그인</Button_Login>
             </Wrapper>
         </Positional>
     )

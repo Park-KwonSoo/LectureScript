@@ -4,7 +4,9 @@ import styled from 'styled-components';
 
 const Button = styled.button `
     background : white;
-    border : 1px white;
+    color : ${oc.indigo[5]};
+
+    border : transparent;
     border-radius : 3px;
 
     font-family : 'Jua';
@@ -18,8 +20,8 @@ const Button = styled.button `
     transition : .25s all;
 
     &:hover {
-        background : ${oc.indigo[4]};
-        border : 1.2px solid white;
+        background : ${oc.indigo[7]};
+        color : white;
     }
 `;
 
