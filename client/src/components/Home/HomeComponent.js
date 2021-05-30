@@ -50,7 +50,8 @@ const HomeComponent = ({onClick}) => {
         <Wrapper>
             <MainImage/>
             <MainExplain>
-                LectureScript입니다.
+                교수님의 강의를 대본으로 만들어주는, Lecture Script입니다!<br/>
+                로그인해서 강의를 관리하고, 사용해보세요.
             </MainExplain>
             <StartButton onClick = {onClick}>로그인해서 시작하기</StartButton>
         </Wrapper>
