@@ -10,7 +10,15 @@
 
 매번 강의 목록을 찾고, Time Bar를 옮기고 옮겨 겨우겨우 복습을 시작했다면, Lecture Script를 사용하여 편리하고 효율적으로 복습을 해봅시다.
 
-- Framework & Library & API 펼치기
+- Framework & Library & API
+
+    : 클릭하면 공식 문서로 이동합니다.
+
+    - [Django](https://docs.djangoproject.com/ko/3.2/intro/)
+    - [DRF](https://www.django-rest-framework.org), [Django Rest Auth](https://django-rest-auth.readthedocs.io/en/latest/)
+    - [React.JS](https://ko.reactjs.org), [Redux](https://ko.redux.js.org/introduction/getting-started/)
+    - [Google Cloud Speech-To-Text](https://cloud.google.com/speech-to-text/docs/basics?hl=ko), [Google Cloud Storage](https://cloud.google.com/storage/docs/samples?hl=ko)
+    - [Styled-Component](https://styled-components.com/docs), [Open-Color](https://yeun.github.io/open-color/)
 
 ![https://user-images.githubusercontent.com/72953899/120222155-76cee000-c27a-11eb-970d-6903fe57a783.png](https://user-images.githubusercontent.com/72953899/120222155-76cee000-c27a-11eb-970d-6903fe57a783.png)
 
