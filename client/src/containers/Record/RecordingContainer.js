@@ -80,6 +80,7 @@ function RecordingContainer() {
             dispatch(recordActions.setError({
                 message : '이 브라우저는 녹음을 진행할 수 없습니다.'
             }));
+            console.log(navigator);
         } else {
             const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
     
