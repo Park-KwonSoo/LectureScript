@@ -161,7 +161,7 @@ REST_USE_JWT = True
 MEDIA_ROOT = '/Users/parkkwonsoo/Desktop/Project/LectureScript/server'
 MEDIA_URL = '/Users/parkkwonsoo/Desktop/Project/LectureScript/server/file/'
 
-FILE_UPLODA_MAX_MEMORY_SIZE = '2621440'
+FILE_UPLODA_MAX_MEMORY_SIZE = '429916160'
 
 
 # Internationalization
