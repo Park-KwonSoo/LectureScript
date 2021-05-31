@@ -10,7 +10,7 @@
 
 매번 강의 목록을 찾고, Time Bar를 옮기고 옮겨 겨우겨우 복습을 시작했다면, Lecture Script를 사용하여 편리하고 효율적으로 복습을 해봅시다.
 
-- Framework & Library & API
+- **Framework & Library & API**
 
     : 클릭하면 공식 문서로 이동합니다.
 
